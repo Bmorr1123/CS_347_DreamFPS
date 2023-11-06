@@ -1,0 +1,76 @@
+{
+    "name": "Default Controls",
+    "maps": [
+        {
+            "name": "Weapon",
+            "id": "e36e8753-928a-4b7c-aa05-4fa1cd299196",
+            "actions": [
+                {
+                    "name": "Left Action",
+                    "type": "Button",
+                    "id": "51ac332c-13d1-4fea-982b-6b7d259e54fb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Right Action",
+                    "type": "Button",
+                    "id": "cd7609d5-798e-47af-ad26-a625f5fcff6f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fa044ded-7dbc-4d5f-9189-57d1da4cb3a0",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "33a95780-7b3e-40a5-b90e-da69729bd368",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d1e3547a-169a-48a5-a9b5-be5e8b37bc3c",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aa32082e-f5c4-4cea-be13-928a566e51fd",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
