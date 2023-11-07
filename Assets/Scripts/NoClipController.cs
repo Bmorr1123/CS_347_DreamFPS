@@ -33,7 +33,7 @@ public class NoClipController : MonoBehaviour
     void Update()
     {
         Vector2 input = new Vector2(cameraX.ReadValue<float>(), cameraY.ReadValue<float>());
-        print(rotation);
+        // print(rotation);
 
         rotation.x += input.x * sensitivity;
         rotation.y += input.y * sensitivity;

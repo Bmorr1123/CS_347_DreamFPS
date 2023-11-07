@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +11,9 @@ public class WeaponController : MonoBehaviour
     public float launchForce = 0f;
 
     void Awake()
-    {
+    {   
+        weaponBody.useGravity = false;
+
         InputActionMap actionMap = actions.FindActionMap("Weapon");
         leftAction = actionMap.FindAction("Left Action");
         rightAction = actionMap.FindAction("Right Action");
@@ -42,6 +42,7 @@ public class WeaponController : MonoBehaviour
     {
         print("Left Action!!!");
         this.weaponBody.AddForce(this.launchAngle * launchForce);
+        this.weaponBody.useGravity = true;
     }
 
     private void OnRightAction(InputAction.CallbackContext context)
