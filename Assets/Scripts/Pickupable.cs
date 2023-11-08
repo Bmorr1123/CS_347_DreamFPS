@@ -4,56 +4,62 @@ using UnityEngine.InputSystem;
 using Vector3 = UnityEngine.Vector3;
 
 public class Pickupable : MonoBehaviour
-{
-
+{   
+    public enum Hand
+    {
+        NONE, LEFT, RIGHT
+    }
     public InputActionAsset actions;
-    private InputAction leftAction, dropAction;
+    private InputAction leftAction, rightAction, pickUpAction;
 
-    public Transform playerTransform, gunContainerTransform, cameraTransform;
-    public Rigidbody rb;
-    public Collider coll;
+    public Transform playerTransform, leftHandTransform, rightHandTransform, cameraTransform;
+    private Rigidbody rb;
+    private Collider coll;
 
     public float pickUpRange, forwardDropForce, verticalDropForce;
-    public static Boolean leftFull;
+    public static GameObject leftHand, rightHand;
 
-    private Boolean equipped;
+    private Hand equippedIn = Hand.NONE;
     void Awake()
     {
-        print(actions);
         InputActionMap actionMap = actions.FindActionMap("Weapon");
         leftAction = actionMap.FindAction("Left Action");
-        // rightAction = actionMap.FindAction("Right Action");
+        rightAction = actionMap.FindAction("Right Action");
+        pickUpAction = actionMap.FindAction("Pick Up");
 
-        leftAction.performed += TryEither;
-        // rightAction.performed += OnRightAction;
+        leftAction.performed += TryDropLeft;
+        rightAction.performed += TryDropRight;
+        pickUpAction.performed += TryPickUp;
 
         leftAction.Enable();
-        // rightAction.Enable();
-
-        // leftAction.performed += TryPickUp;
-        // dropAction.performed += TryDrop;
+        rightAction.Enable();
+        pickUpAction.Enable();
 
         this.rb = GetComponent<Rigidbody>();
         this.coll = GetComponent<Collider>();
     }
 
-    void TryEither(InputAction.CallbackContext context) {
-        if(this.equipped) {
-            TryDrop(context);
-        } else {
-            TryPickUp(context);
-        }
+    private static Boolean hasSpace() {
+        return leftHand == null || rightHand == null;
     }
 
     void PickUp()
     {   
-        print("Being picked up!");
-        leftFull = true;
-        equipped = true;
+        // print("Being picked up!");
+
+        if (leftHand == null) {
+            leftHand = gameObject;
+            equippedIn = Hand.LEFT;
+            transform.SetParent(leftHandTransform);
+        } else {
+            rightHand = gameObject;
+            equippedIn = Hand.RIGHT;
+            transform.SetParent(rightHandTransform);
+        }
+
         rb.isKinematic = true;
         coll.isTrigger = true;
 
-        transform.SetParent(gunContainerTransform);
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.Euler(Vector3.zero);
         // transform.localScale = Vector3.one;
@@ -63,17 +69,21 @@ public class Pickupable : MonoBehaviour
     void TryPickUp(InputAction.CallbackContext context)
     {
         Vector3 distanceToPlayer = playerTransform.position - transform.position;
-        if (!leftFull && distanceToPlayer.magnitude < pickUpRange && !equipped)
+        if (hasSpace() && distanceToPlayer.magnitude < pickUpRange && equippedIn == Hand.NONE)
         {
             PickUp();
         }
 
     }
     void Drop()
-    {
+    {   
         print("Being dropped!");
-        leftFull = false;
-        equipped = false;
+        if (equippedIn == Hand.LEFT) {
+            leftHand = null;
+        } else if (equippedIn == Hand.RIGHT) {
+            rightHand = null;
+        }
+        equippedIn = Hand.NONE;
         rb.isKinematic = false;
         coll.isTrigger = false;
 
@@ -81,12 +91,16 @@ public class Pickupable : MonoBehaviour
 
         rb.velocity = GetComponent<Rigidbody>().velocity;
         rb.AddForce(cameraTransform.forward * forwardDropForce, ForceMode.Impulse);
-        rb.AddForce(cameraTransform.up * verticalDropForce, ForceMode.Impulse);// test
+        rb.AddForce(cameraTransform.up * verticalDropForce, ForceMode.Impulse);
 
     }
-    void TryDrop(InputAction.CallbackContext context)
-    {
-        if (this.equipped) Drop();
+    void TryDropLeft(InputAction.CallbackContext context)
+    {   
+        if (this.equippedIn == Hand.LEFT) Drop();
+    }
+    void TryDropRight(InputAction.CallbackContext context)
+    {   
+        if (this.equippedIn == Hand.RIGHT) Drop();
     }
 
 }
