@@ -14,8 +14,8 @@ public class WeaponController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("mouse 0")) {
-            weaponBody.AddForce(Vector3.forward * 10);
-        }
+        // if (Input.GetButtonDown("mouse 0")) {
+        //     weaponBody.AddForce(Vector3.forward * 10);
+        // }
     }
 }
