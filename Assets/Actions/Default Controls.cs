@@ -71,6 +71,17 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""fba9c0b5-7be1-4cf8-b6b5-cdb99dff2fca"",
+                    ""path"": ""<Keyboard>/leftBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""d1e3547a-169a-48a5-a9b5-be5e8b37bc3c"",
                     ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
@@ -84,6 +95,17 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""aa32082e-f5c4-4cea-be13-928a566e51fd"",
                     ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""772f423d-be15-450e-af6b-6efd2412fb86"",
+                    ""path"": ""<Keyboard>/rightBracket"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

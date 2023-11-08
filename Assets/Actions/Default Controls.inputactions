@@ -94,54 +94,6 @@
             ]
         },
         {
-            "name": "Camera",
-            "id": "53d5dda6-9c25-443b-9f2e-f1ac2b2cda09",
-            "actions": [
-                {
-                    "name": "MouseX",
-                    "type": "PassThrough",
-                    "id": "ed722253-0e45-43b1-b1fb-dd1d7ff24180",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "MouseY",
-                    "type": "PassThrough",
-                    "id": "795511a0-7650-403f-be85-363f4c487d28",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "beb3ffcf-2ccc-42ff-9705-1dc484de98a6",
-                    "path": "<Mouse>/delta/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MouseX",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "58970e89-2dc9-4895-9c2a-d5e314ed6a7b",
-                    "path": "<Mouse>/delta/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MouseY",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
             "name": "PlayerControl",
             "id": "f31c4d84-b0db-42d0-bf6a-969ee5382557",
             "actions": [

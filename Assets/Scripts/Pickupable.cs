@@ -54,8 +54,8 @@ public class Pickupable : MonoBehaviour
         coll.isTrigger = true;
 
         transform.SetParent(gunContainerTransform);
-        // transform.localPosition = Vector3.zero;
-        // transform.localRotation = Quaternion.Euler(Vector3.zero);
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.Euler(Vector3.zero);
         // transform.localScale = Vector3.one;
 
         // gunscript.enabled = true;
