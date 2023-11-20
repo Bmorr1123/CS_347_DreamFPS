@@ -5,7 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Weapon
-  - Ground
+  - Floor
+  - Wall
+  - Ceiling
   layers:
   - Default
   - TransparentFX
