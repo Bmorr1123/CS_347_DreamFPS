@@ -44,6 +44,15 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pick Up"",
+                    ""type"": ""Button"",
+                    ""id"": ""523eb41b-f0f8-4d50-b328-c594f53b67c2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -71,6 +80,17 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""fba9c0b5-7be1-4cf8-b6b5-cdb99dff2fca"",
+                    ""path"": ""<Keyboard>/leftBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""d1e3547a-169a-48a5-a9b5-be5e8b37bc3c"",
                     ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
@@ -88,6 +108,28 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Right Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""772f423d-be15-450e-af6b-6efd2412fb86"",
+                    ""path"": ""<Keyboard>/rightBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1ae62dc-6aa3-4407-a2a0-bca1bd2fb41d"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pick Up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -351,6 +393,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         m_Weapon = asset.FindActionMap("Weapon", throwIfNotFound: true);
         m_Weapon_LeftAction = m_Weapon.FindAction("Left Action", throwIfNotFound: true);
         m_Weapon_RightAction = m_Weapon.FindAction("Right Action", throwIfNotFound: true);
+        m_Weapon_PickUp = m_Weapon.FindAction("Pick Up", throwIfNotFound: true);
         // PlayerControl
         m_PlayerControl = asset.FindActionMap("PlayerControl", throwIfNotFound: true);
         m_PlayerControl_Movement = m_PlayerControl.FindAction("Movement", throwIfNotFound: true);
@@ -419,12 +462,14 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
     private IWeaponActions m_WeaponActionsCallbackInterface;
     private readonly InputAction m_Weapon_LeftAction;
     private readonly InputAction m_Weapon_RightAction;
+    private readonly InputAction m_Weapon_PickUp;
     public struct WeaponActions
     {
         private @DefaultControls m_Wrapper;
         public WeaponActions(@DefaultControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @LeftAction => m_Wrapper.m_Weapon_LeftAction;
         public InputAction @RightAction => m_Wrapper.m_Weapon_RightAction;
+        public InputAction @PickUp => m_Wrapper.m_Weapon_PickUp;
         public InputActionMap Get() { return m_Wrapper.m_Weapon; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -440,6 +485,9 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 @RightAction.started -= m_Wrapper.m_WeaponActionsCallbackInterface.OnRightAction;
                 @RightAction.performed -= m_Wrapper.m_WeaponActionsCallbackInterface.OnRightAction;
                 @RightAction.canceled -= m_Wrapper.m_WeaponActionsCallbackInterface.OnRightAction;
+                @PickUp.started -= m_Wrapper.m_WeaponActionsCallbackInterface.OnPickUp;
+                @PickUp.performed -= m_Wrapper.m_WeaponActionsCallbackInterface.OnPickUp;
+                @PickUp.canceled -= m_Wrapper.m_WeaponActionsCallbackInterface.OnPickUp;
             }
             m_Wrapper.m_WeaponActionsCallbackInterface = instance;
             if (instance != null)
@@ -450,6 +498,9 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 @RightAction.started += instance.OnRightAction;
                 @RightAction.performed += instance.OnRightAction;
                 @RightAction.canceled += instance.OnRightAction;
+                @PickUp.started += instance.OnPickUp;
+                @PickUp.performed += instance.OnPickUp;
+                @PickUp.canceled += instance.OnPickUp;
             }
         }
     }
@@ -523,6 +574,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
     {
         void OnLeftAction(InputAction.CallbackContext context);
         void OnRightAction(InputAction.CallbackContext context);
+        void OnPickUp(InputAction.CallbackContext context);
     }
     public interface IPlayerControlActions
     {
