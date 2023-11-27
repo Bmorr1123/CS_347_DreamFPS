@@ -9,6 +9,7 @@ public class EnemySpawner : MonoBehaviour
     public float minSpawnDelay;
     public float maxSpawnDelay;
     public float spawnChance;
+    public int maxSkeletons;
 
     private float nextSpawnTime;
     // Start is called before the first frame update
@@ -31,6 +32,10 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnEnemy()
     {
+        if (GameManager.TotalSkeletonsOnMap >= maxSkeletons)
+        {
+            return;
+        }
         if (Random.Range(0, 1) >= spawnChance)
         {
             return;

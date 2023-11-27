@@ -35,6 +35,8 @@ public class EnemyController : MonoBehaviour
         nextShootTime = Time.timeSinceLevelLoad + maxShootDelay;
 
         playerTransform = GameObject.Find("Player/PlayerBody").transform;
+
+        GameManager.TotalSkeletonsOnMap += 1;
     }
 
     void Update()
@@ -68,7 +70,7 @@ public class EnemyController : MonoBehaviour
 
     void Die()
     {
-
+        GameManager.TotalSkeletonsOnMap -= 1;
         print("I AM DYING!!!");
         isAlive = false;
         animator.SetTrigger("Die");
