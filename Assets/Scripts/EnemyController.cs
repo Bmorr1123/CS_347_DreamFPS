@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour
 {
     Animator animator;
 
-    public Transform playerPos;
+    private Transform playerPos;
 
     public GameObject bulletPrefab;
 
@@ -33,6 +33,8 @@ public class EnemyController : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         playerTransform = GameObject.Find("Player").transform;
         nextShootTime = Time.timeSinceLevelLoad + maxShootDelay;
+
+        playerTransform = GameObject.Find("Player/PlayerBody").transform;
     }
 
     void Update()

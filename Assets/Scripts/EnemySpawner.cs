@@ -6,9 +6,9 @@ public class EnemySpawner : MonoBehaviour
 {
     public Transform spawnPos;
     public GameObject enemyPrefab;
-    public float spawnChance;
     public float minSpawnDelay;
     public float maxSpawnDelay;
+    public float spawnChance;
 
     private float nextSpawnTime;
     // Start is called before the first frame update
@@ -31,6 +31,11 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnEnemy()
     {
-        Instantiate(enemyPrefab, spawnPos);
+        if (Random.Range(0, 1) >= spawnChance)
+        {
+            return;
+        }
+
+        Instantiate(enemyPrefab, spawnPos.position, spawnPos.rotation);
     }
 }
