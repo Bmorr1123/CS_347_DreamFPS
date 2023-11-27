@@ -38,16 +38,13 @@ public class Pickupable : MonoBehaviour
         rightAction.performed += TryDropRight;
         pickUpAction.performed += TryPickUp;
 
-        leftAction.Enable();
-        rightAction.Enable();
-        pickUpAction.Enable();
-
         this.rb = GetComponent<Rigidbody>();
         this.coll = GetComponent<Collider>();
 
         this.leftHandTransform = GameObject.Find("Main Camera/Left Hand").transform;
         this.rightHandTransform = GameObject.Find("Main Camera/Right Hand").transform;
 
+        playerTransform = GameObject.Find("Player/PlayerBody").transform;
     }
 
     private static Boolean hasSpace()
@@ -163,4 +160,12 @@ public class Pickupable : MonoBehaviour
         if (this.equippedIn == Hand.RIGHT) Drop();
     }
 
+    void OnEnable()
+    {
+        actions.FindActionMap("Weapon").Enable();
+    }
+    void OnDisable()
+    {
+        actions.FindActionMap("Weapon").Disable();
+    }
 }
