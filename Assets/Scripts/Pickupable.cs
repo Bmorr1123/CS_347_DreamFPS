@@ -140,7 +140,7 @@ public class Pickupable : MonoBehaviour
         print("Collided with " + collision.gameObject.tag);
         if (collision.gameObject.tag == "Player")
         {
-            if (hasSpace())
+            if (hasSpace() && isFlying)
             {
                 PickUp();
             }
