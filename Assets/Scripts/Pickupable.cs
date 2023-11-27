@@ -23,7 +23,7 @@ public class Pickupable : MonoBehaviour
 
     public float pickUpRange, forwardDropForce, verticalDropForce;
     public static GameObject leftHand, rightHand;
-    public float bounceForce = 10f;
+    public float bounceForce = 10f, verticalBounceForce = 5;
 
     private Hand equippedIn = Hand.NONE;
     private PickupState pickupState = PickupState.LOOSE;
@@ -124,7 +124,7 @@ public class Pickupable : MonoBehaviour
             {
                 Vector3 bounceDir = new Vector3(-rb.velocity.x, 0, -rb.velocity.z).normalized;
                 bounceDir = Quaternion.AngleAxis(Random.Range(-45, 45), Vector3.up) * bounceDir;
-                bounceDir.y = 5;
+                bounceDir.y = verticalBounceForce;
                 bounceDir = bounceDir.normalized * bounceForce;
                 rb.velocity = bounceDir;
                 pickupState = PickupState.BOUNCED;

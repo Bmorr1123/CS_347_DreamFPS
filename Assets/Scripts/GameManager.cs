@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public Text scoreText, skeleAliveText, survivedTimeText, gameOverText;
 
+    public InputActionAsset actions;
+    private InputAction leftAction;
     public bool gameOver;
 
     // Start is called before the first frame update
@@ -18,7 +22,11 @@ public class GameManager : MonoBehaviour
     {
         TotalSkeletonsOnMap = 0;
         SkeletonsKilled = 0;
-gameOverText.enabled = false;
+        gameOverText.enabled = false;
+
+        InputActionMap actionMap = actions.FindActionMap("Weapon");
+        leftAction = actionMap.FindAction("Left Action");
+        leftAction.performed += TryReturnToMenu;
     }
 
     // Update is called once per frame
@@ -29,9 +37,18 @@ gameOverText.enabled = false;
             scoreText.text = "Score: " + (100 * SkeletonsKilled);
             skeleAliveText.text = "Enemies Alives: " + TotalSkeletonsOnMap;
             survivedTimeText.text = "Time Survived: " + Math.Round(Time.timeSinceLevelLoad, 2);
-        } else {
-gameOverText.enabled = true;
+        }
+        else
+        {
+
+            gameOverText.enabled = true;
         }
 
+    }
+
+    void TryReturnToMenu(InputAction.CallbackContext context) {
+        if (gameOver) {
+            SceneManager.LoadScene("StartMenu");
+        }
     }
 }
