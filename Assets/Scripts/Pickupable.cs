@@ -37,6 +37,10 @@ public class Pickupable : MonoBehaviour
 
         this.rb = GetComponent<Rigidbody>();
         this.coll = GetComponent<Collider>();
+
+        this.leftHandTransform = GameObject.Find("Main Camera/Left Hand").transform;
+        this.rightHandTransform = GameObject.Find("Main Camera/Right Hand").transform;
+
     }
 
     private static Boolean hasSpace() {
