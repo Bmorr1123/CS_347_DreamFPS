@@ -10,6 +10,10 @@ public class Pickupable : MonoBehaviour
     {
         NONE, LEFT, RIGHT
     }
+
+    public enum PickupState {
+        LOOSE, INHAND, FLYING, BOUNCED
+    }
     public InputActionAsset actions;
     private InputAction leftAction, rightAction, pickUpAction;
 
@@ -21,9 +25,8 @@ public class Pickupable : MonoBehaviour
     public static GameObject leftHand, rightHand;
     public float bounceForce = 10f;
 
-    private bool isFlying = false;
-
     private Hand equippedIn = Hand.NONE;
+    private PickupState pickupState = PickupState.LOOSE;
     void Awake()
     {
         InputActionMap actionMap = actions.FindActionMap("Weapon");
@@ -55,7 +58,7 @@ public class Pickupable : MonoBehaviour
     void PickUp()
     {
         // print("Being picked up!");
-        isFlying = false;
+        pickupState = PickupState.INHAND;
 
         if (leftHand == null)
         {
@@ -106,7 +109,7 @@ public class Pickupable : MonoBehaviour
         transform.SetParent(null);
         transform.position = cameraTransform.position;
 
-        isFlying = true;
+        pickupState = PickupState.FLYING;
         rb.velocity = GetComponent<Rigidbody>().velocity;
         rb.AddForce(cameraTransform.forward * forwardDropForce, ForceMode.Impulse);
         rb.AddForce(cameraTransform.up * verticalDropForce, ForceMode.Impulse);
@@ -124,28 +127,29 @@ public class Pickupable : MonoBehaviour
                 bounceDir.y = 5;
                 bounceDir = bounceDir.normalized * bounceForce;
                 rb.velocity = bounceDir;
+                pickupState = PickupState.BOUNCED;
             }
-            // else if (other.CompareTag("Player") && isFlying)
-            // {
-            //     if (hasSpace())
-            //     {
-            //         PickUp();
-            //     }
-            // }
+            else if (other.CompareTag("Player") && pickupState == PickupState.BOUNCED)
+            {
+                if (hasSpace())
+                {
+                    PickUp();
+                }
+            }
         }
     }
 
-    void OnCollisionEnter(Collision collision)
-    {   
-        print("Collided with " + collision.gameObject.tag);
-        if (collision.gameObject.tag == "Player")
-        {
-            if (hasSpace() && isFlying)
-            {
-                PickUp();
-            }
-        }
-    }
+    // void OnCollisionEnter(Collision collision)
+    // {   
+    //     print("Collided with " + collision.gameObject.tag);
+    //     if (collision.gameObject.tag == "Player")
+    //     {
+    //         if (hasSpace() && isFlying)
+    //         {
+    //             PickUp();
+    //         }
+    //     }
+    // }
 
     void TryDropLeft(InputAction.CallbackContext context)
     {
