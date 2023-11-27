@@ -92,6 +92,7 @@ public class Pickupable : MonoBehaviour
         coll.isTrigger = false;
 
         transform.SetParent(null);
+        transform.position = cameraTransform.position;
 
         rb.velocity = GetComponent<Rigidbody>().velocity;
         rb.AddForce(cameraTransform.forward * forwardDropForce, ForceMode.Impulse);
