@@ -14,9 +14,9 @@ public class EnemyController : MonoBehaviour
 
     public float minShootDelay;
     public float maxShootDelay;
-    
+
     public float bulletSpeed;
-    
+
     public Transform bulletSpawn;
 
     private float nextShootTime;
@@ -26,6 +26,7 @@ public class EnemyController : MonoBehaviour
 
     private NavMeshAgent navMeshAgent;
     private Transform playerTransform;
+    private GameManager gameManager;
 
     void Awake()
     {
@@ -37,10 +38,13 @@ public class EnemyController : MonoBehaviour
         playerTransform = GameObject.Find("Player/PlayerBody").transform;
 
         GameManager.TotalSkeletonsOnMap += 1;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void Update()
     {
+        isRunning = (navMeshAgent.velocity.magnitude > 0);
+
         if (isAlive)
         {
             navMeshAgent.destination = playerTransform.position;
@@ -50,6 +54,10 @@ public class EnemyController : MonoBehaviour
                 ShootAtPlayer();
 
                 nextShootTime = Time.timeSinceLevelLoad + Random.Range(minShootDelay, maxShootDelay);
+            }
+            if (gameManager.gameOver)
+            {
+                this.Die();
             }
         }
         else
@@ -71,7 +79,7 @@ public class EnemyController : MonoBehaviour
     void Die()
     {
         GameManager.TotalSkeletonsOnMap -= 1;
-        print("I AM DYING!!!");
+        // print("I AM DYING!!!");
         isAlive = false;
         animator.SetTrigger("Die");
         this.GetComponent<Rigidbody>().freezeRotation = false;

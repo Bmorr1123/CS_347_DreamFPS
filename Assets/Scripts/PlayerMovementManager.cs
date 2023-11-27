@@ -56,7 +56,7 @@ public class PlayerMovementManager : MonoBehaviour
         sprinting,
         air
     }
-
+    private GameManager gameManager;
     // Start is called before the first frame update
     void Awake()
     {
@@ -79,14 +79,16 @@ public class PlayerMovementManager : MonoBehaviour
         exitingSlope = false;
 
         startYScale = transform.localScale.y;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void FixedUpdate()
     {
+        if (!gameManager.gameOver){
         ProcessMove(playerMove.ReadValue<Vector2>());
         SpeedControl();
         ProcessLook(playerLook.ReadValue<Vector2>());
-        MovementStateHandler();
+        MovementStateHandler();}
     }
 
     void Update()
@@ -120,7 +122,7 @@ public class PlayerMovementManager : MonoBehaviour
 
         rb.useGravity = !OnSlope();
     }
-    
+
     void ProcessLook(Vector2 input)
     {
         camControllerScript.ProcessLookInput(input);
@@ -202,11 +204,11 @@ public class PlayerMovementManager : MonoBehaviour
 
     void Jump(InputAction.CallbackContext context)
     {
-        if(!readyToJump || !grounded)
+        if (!readyToJump || !grounded)
         {
             return;
         }
-        
+
         exitingSlope = true;
 
         readyToJump = false;
@@ -217,7 +219,7 @@ public class PlayerMovementManager : MonoBehaviour
 
         Invoke(nameof(ResetJump), jumpCooldown);
     }
-    
+
     void ResetJump()
     {
         exitingSlope = false;

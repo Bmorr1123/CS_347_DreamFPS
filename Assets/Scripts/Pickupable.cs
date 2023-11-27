@@ -136,6 +136,9 @@ public class Pickupable : MonoBehaviour
                     PickUp();
                 }
             }
+            else if (other.CompareTag("Floor")) {
+                pickupState = PickupState.LOOSE;
+            }
         }
     }
 

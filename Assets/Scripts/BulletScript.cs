@@ -6,10 +6,12 @@ public class BulletScript : MonoBehaviour
 {
     private float spawnTime;
     public float liveTime;
+    GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
         spawnTime = Time.timeSinceLevelLoad;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -26,6 +28,8 @@ public class BulletScript : MonoBehaviour
         if (other.tag == "Player")
         {
             print("PLAYER DIED");
+            gameManager.gameOver = true;
+
         }
 
         Destroy(gameObject);
