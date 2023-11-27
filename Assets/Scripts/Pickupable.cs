@@ -99,6 +99,11 @@ public class Pickupable : MonoBehaviour
         rb.AddForce(cameraTransform.up * verticalDropForce, ForceMode.Impulse);
 
     }
+
+    void OnTriggerEnter(Collider other) {
+        
+    }
+
     void TryDropLeft(InputAction.CallbackContext context)
     {   
         if (this.equippedIn == Hand.LEFT) Drop();
