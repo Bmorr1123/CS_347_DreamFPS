@@ -120,7 +120,7 @@ public class Pickupable : MonoBehaviour
     {
         if (equippedIn == Hand.NONE)
         {
-            if (other.CompareTag("Enemy"))
+            if (other.CompareTag("Enemy") && pickupState == PickupState.FLYING)
             {
                 Vector3 bounceDir = new Vector3(-rb.velocity.x, 0, -rb.velocity.z).normalized;
                 bounceDir = Quaternion.AngleAxis(Random.Range(-45, 45), Vector3.up) * bounceDir;
