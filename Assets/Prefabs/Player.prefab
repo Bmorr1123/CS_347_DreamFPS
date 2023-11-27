@@ -222,10 +222,10 @@ MonoBehaviour:
   playerInputActions: {fileID: -944628639613478452, guid: 95234082872571b48b1818b6e51ce94b, type: 3}
   cameraGO: {fileID: 0}
   orientation: {fileID: 3532099284265873174}
-  walkSpeed: 7
-  sprintSpeed: 10
+  walkSpeed: 10
+  sprintSpeed: 13
   groundDrag: 5
-  jumpForce: 8
+  jumpForce: 15
   jumpCooldown: 0.25
   airMultiplier: 0.4
   crouchSpeed: 4
@@ -234,7 +234,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  maxSlopeAngle: 0
+  maxSlopeAngle: 40
   mState: 0
 --- !u!1 &3532099285054849047
 GameObject:
