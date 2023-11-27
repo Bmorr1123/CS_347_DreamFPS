@@ -8,8 +8,6 @@ public class EnemyController : MonoBehaviour
 {
     Animator animator;
 
-    private Transform playerPos;
-
     public GameObject bulletPrefab;
 
     public float minShootDelay;
@@ -100,7 +98,7 @@ public class EnemyController : MonoBehaviour
     void ShootAtPlayer()
     {
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
-        bullet.transform.LookAt(playerPos);
+        bullet.transform.LookAt(playerTransform);
         Rigidbody brb = bullet.GetComponent<Rigidbody>();
         brb.velocity = bullet.transform.forward * bulletSpeed;
     }
