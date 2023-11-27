@@ -3466,6 +3466,14 @@ PrefabInstance:
       value: 1911
       objectReference: {fileID: 0}
     - target: {fileID: 159826090156076718, guid: 13795ff1c0bd3544e9eced788528af93, type: 3}
+      propertyPath: sensX
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 159826090156076718, guid: 13795ff1c0bd3544e9eced788528af93, type: 3}
+      propertyPath: sensY
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 159826090156076718, guid: 13795ff1c0bd3544e9eced788528af93, type: 3}
       propertyPath: orientation
       value: 
       objectReference: {fileID: 538575428}
@@ -4032,7 +4040,6 @@ GameObject:
   - component: {fileID: 2034128063}
   - component: {fileID: 2034128065}
   - component: {fileID: 2034128064}
-  - component: {fileID: 2034128066}
   m_Layer: 6
   m_Name: Terrain_0_0_1012d172-b629-48b6-ad7e-f70c6786f501
   m_TagString: Floor
@@ -4098,22 +4105,6 @@ Terrain:
   m_GroupingID: 0
   m_RenderingLayerMask: 1
   m_AllowAutoConnect: 1
---- !u!54 &2034128066
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2034128062}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!4 &2143422608 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7820323986939944089, guid: 7189e3be30ea0ec42b2f354e54fd2565, type: 3}

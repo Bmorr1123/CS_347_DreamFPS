@@ -78,11 +78,15 @@ public class EnemyController : MonoBehaviour
 
     void Die()
     {
-        GameManager.TotalSkeletonsOnMap -= 1;
-        // print("I AM DYING!!!");
-        isAlive = false;
-        animator.SetTrigger("Die");
-        this.GetComponent<Rigidbody>().freezeRotation = false;
+        if (isAlive)
+        {
+            GameManager.TotalSkeletonsOnMap -= 1;
+            GameManager.SkeletonsKilled++;
+            // print("I AM DYING!!!");
+            isAlive = false;
+            animator.SetTrigger("Die");
+            this.GetComponent<Rigidbody>().freezeRotation = false;
+        }
     }
 
     void OnTriggerEnter(Collider other)

@@ -40,7 +40,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             gameOverText.enabled = true;
         }
 
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
     void TryReturnToMenu(InputAction.CallbackContext context) {
         if (gameOver) {
             SceneManager.LoadScene("StartMenu");
+            leftAction.performed -= TryReturnToMenu;
         }
     }
 }
