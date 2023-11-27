@@ -2,10 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations;
 
 public class EnemyController : MonoBehaviour
 {
     Animator animator;
+
+    public Transform playerPos;
+
+    public GameObject bulletPrefab;
+
+    public float minShootDelay;
+    public float maxShootDelay;
+    
+    public float bulletSpeed;
+    
+    public Transform bulletSpawn;
+
+    private float nextShootTime;
 
     public bool isRunning = false, isAlive = true;
     bool hasPerformedDeathAnimation = false;
@@ -18,7 +32,7 @@ public class EnemyController : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         playerTransform = GameObject.Find("Player").transform;
-
+        nextShootTime = Time.timeSinceLevelLoad + maxShootDelay;
     }
 
     void Update()
@@ -26,11 +40,17 @@ public class EnemyController : MonoBehaviour
         if (isAlive)
         {
             navMeshAgent.destination = playerTransform.position;
+
+            if (nextShootTime < Time.timeSinceLevelLoad)
+            {
+                ShootAtPlayer();
+
+                nextShootTime = Time.timeSinceLevelLoad + Random.Range(minShootDelay, maxShootDelay);
+            }
         }
         else
         {
             navMeshAgent.destination = transform.position;
-
         }
 
         if (!isAlive && this.animator.GetCurrentAnimatorStateInfo(0).IsName("Die"))
@@ -59,5 +79,13 @@ public class EnemyController : MonoBehaviour
         {
             this.Die();
         }
+    }
+
+    void ShootAtPlayer()
+    {
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+        bullet.transform.LookAt(playerPos);
+        Rigidbody brb = bullet.GetComponent<Rigidbody>();
+        brb.velocity = bullet.transform.forward * bulletSpeed;
     }
 }
