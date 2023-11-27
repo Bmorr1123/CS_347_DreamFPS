@@ -10,6 +10,10 @@ public class Pickupable : MonoBehaviour
     {
         NONE, LEFT, RIGHT
     }
+
+    public enum PickupState {
+        LOOSE, INHAND, FLYING, BOUNCED
+    }
     public InputActionAsset actions;
     private InputAction leftAction, rightAction, pickUpAction;
 
@@ -21,9 +25,8 @@ public class Pickupable : MonoBehaviour
     public static GameObject leftHand, rightHand;
     public float bounceForce = 10f;
 
-    private bool isFlying = false;
-
     private Hand equippedIn = Hand.NONE;
+    private PickupState pickupState = PickupState.LOOSE;
     void Awake()
     {
         InputActionMap actionMap = actions.FindActionMap("Weapon");
@@ -55,7 +58,7 @@ public class Pickupable : MonoBehaviour
     void PickUp()
     {
         // print("Being picked up!");
-        isFlying = false;
+        pickupState = PickupState.INHAND;
 
         if (leftHand == null)
         {
@@ -106,7 +109,7 @@ public class Pickupable : MonoBehaviour
         transform.SetParent(null);
         transform.position = cameraTransform.position;
 
-        isFlying = true;
+        pickupState = PickupState.FLYING;
         rb.velocity = GetComponent<Rigidbody>().velocity;
         rb.AddForce(cameraTransform.forward * forwardDropForce, ForceMode.Impulse);
         rb.AddForce(cameraTransform.up * verticalDropForce, ForceMode.Impulse);
@@ -117,35 +120,36 @@ public class Pickupable : MonoBehaviour
     {
         if (equippedIn == Hand.NONE)
         {
-            if (other.CompareTag("Enemy"))
+            if (other.CompareTag("Enemy") && pickupState == PickupState.FLYING)
             {
                 Vector3 bounceDir = new Vector3(-rb.velocity.x, 0, -rb.velocity.z).normalized;
                 bounceDir = Quaternion.AngleAxis(Random.Range(-45, 45), Vector3.up) * bounceDir;
                 bounceDir.y = 5;
                 bounceDir = bounceDir.normalized * bounceForce;
                 rb.velocity = bounceDir;
+                pickupState = PickupState.BOUNCED;
             }
-            // else if (other.CompareTag("Player") && isFlying)
-            // {
-            //     if (hasSpace())
-            //     {
-            //         PickUp();
-            //     }
-            // }
+            else if (other.CompareTag("Player") && pickupState == PickupState.BOUNCED)
+            {
+                if (hasSpace())
+                {
+                    PickUp();
+                }
+            }
         }
     }
 
-    void OnCollisionEnter(Collision collision)
-    {   
-        print("Collided with " + collision.gameObject.tag);
-        if (collision.gameObject.tag == "Player")
-        {
-            if (hasSpace())
-            {
-                PickUp();
-            }
-        }
-    }
+    // void OnCollisionEnter(Collision collision)
+    // {   
+    //     print("Collided with " + collision.gameObject.tag);
+    //     if (collision.gameObject.tag == "Player")
+    //     {
+    //         if (hasSpace() && isFlying)
+    //         {
+    //             PickUp();
+    //         }
+    //     }
+    // }
 
     void TryDropLeft(InputAction.CallbackContext context)
     {
