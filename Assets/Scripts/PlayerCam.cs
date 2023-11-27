@@ -5,20 +5,16 @@ using UnityEngine.InputSystem;
 
 public class PlayerCam : MonoBehaviour
 {
-    public InputActionAsset actions;
-
     public float sensX;
     public float sensY;
 
     public Transform orientation;
 
-    private InputAction lookAction;
     float xRotation;
     float yRotation;
     // Start is called before the first frame update
     void Awake()
     {
-        lookAction = actions.FindActionMap("PlayerControl").FindAction("Look");
     }
     void Start()
     {
