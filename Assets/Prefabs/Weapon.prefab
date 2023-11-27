@@ -52,8 +52,9 @@ MonoBehaviour:
   rightHandTransform: {fileID: 0}
   cameraTransform: {fileID: 0}
   pickUpRange: 5
-  forwardDropForce: 40
+  forwardDropForce: 20
   verticalDropForce: 3
+  bounceForce: 20
 --- !u!136 &5963387393605393157
 CapsuleCollider:
   m_ObjectHideFlags: 0

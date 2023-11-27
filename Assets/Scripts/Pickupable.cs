@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
 public class Pickupable : MonoBehaviour
-{   
+{
     public enum Hand
     {
         NONE, LEFT, RIGHT
@@ -18,6 +19,9 @@ public class Pickupable : MonoBehaviour
 
     public float pickUpRange, forwardDropForce, verticalDropForce;
     public static GameObject leftHand, rightHand;
+    public float bounceForce = 10f;
+
+    private bool isFlying = false;
 
     private Hand equippedIn = Hand.NONE;
     void Awake()
@@ -43,19 +47,24 @@ public class Pickupable : MonoBehaviour
 
     }
 
-    private static Boolean hasSpace() {
+    private static Boolean hasSpace()
+    {
         return leftHand == null || rightHand == null;
     }
 
     void PickUp()
-    {   
+    {
         // print("Being picked up!");
+        isFlying = false;
 
-        if (leftHand == null) {
+        if (leftHand == null)
+        {
             leftHand = gameObject;
             equippedIn = Hand.LEFT;
             transform.SetParent(leftHandTransform);
-        } else {
+        }
+        else
+        {
             rightHand = gameObject;
             equippedIn = Hand.RIGHT;
             transform.SetParent(rightHandTransform);
@@ -80,11 +89,14 @@ public class Pickupable : MonoBehaviour
 
     }
     void Drop()
-    {   
+    {
         print("Being dropped!");
-        if (equippedIn == Hand.LEFT) {
+        if (equippedIn == Hand.LEFT)
+        {
             leftHand = null;
-        } else if (equippedIn == Hand.RIGHT) {
+        }
+        else if (equippedIn == Hand.RIGHT)
+        {
             rightHand = null;
         }
         equippedIn = Hand.NONE;
@@ -94,22 +106,53 @@ public class Pickupable : MonoBehaviour
         transform.SetParent(null);
         transform.position = cameraTransform.position;
 
+        isFlying = true;
         rb.velocity = GetComponent<Rigidbody>().velocity;
         rb.AddForce(cameraTransform.forward * forwardDropForce, ForceMode.Impulse);
         rb.AddForce(cameraTransform.up * verticalDropForce, ForceMode.Impulse);
 
     }
 
-    void OnTriggerEnter(Collider other) {
-        
+    void OnTriggerEnter(Collider other)
+    {
+        if (equippedIn == Hand.NONE)
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                Vector3 bounceDir = new Vector3(-rb.velocity.x, 0, -rb.velocity.z).normalized;
+                bounceDir = Quaternion.AngleAxis(Random.Range(-45, 45), Vector3.up) * bounceDir;
+                bounceDir.y = 5;
+                bounceDir = bounceDir.normalized * bounceForce;
+                rb.velocity = bounceDir;
+            }
+            // else if (other.CompareTag("Player") && isFlying)
+            // {
+            //     if (hasSpace())
+            //     {
+            //         PickUp();
+            //     }
+            // }
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {   
+        print("Collided with " + collision.gameObject.tag);
+        if (collision.gameObject.tag == "Player")
+        {
+            if (hasSpace())
+            {
+                PickUp();
+            }
+        }
     }
 
     void TryDropLeft(InputAction.CallbackContext context)
-    {   
+    {
         if (this.equippedIn == Hand.LEFT) Drop();
     }
     void TryDropRight(InputAction.CallbackContext context)
-    {   
+    {
         if (this.equippedIn == Hand.RIGHT) Drop();
     }
 
