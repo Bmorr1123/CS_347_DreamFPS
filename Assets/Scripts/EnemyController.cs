@@ -13,7 +13,8 @@ public class EnemyController : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private Transform playerTransform;
 
-    void Awake() {
+    void Awake()
+    {
         animator = GetComponentInChildren<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         playerTransform = GameObject.Find("Player").transform;
@@ -21,9 +22,16 @@ public class EnemyController : MonoBehaviour
     }
 
     void Update()
-    {   
-        navMeshAgent.destination = playerTransform.position;
+    {
+        if (isAlive)
+        {
+            navMeshAgent.destination = playerTransform.position;
+        }
+        else
+        {
+            navMeshAgent.destination = transform.position;
 
+        }
 
         if (!isAlive && this.animator.GetCurrentAnimatorStateInfo(0).IsName("Die"))
         {
@@ -37,7 +45,7 @@ public class EnemyController : MonoBehaviour
     }
 
     void Die()
-    {   
+    {
 
         print("I AM DYING!!!");
         isAlive = false;
@@ -45,9 +53,9 @@ public class EnemyController : MonoBehaviour
         this.GetComponent<Rigidbody>().freezeRotation = false;
     }
 
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider other)
     {
-        if (col.gameObject.CompareTag("Weapon"))
+        if (other.gameObject.CompareTag("Weapon"))
         {
             this.Die();
         }
