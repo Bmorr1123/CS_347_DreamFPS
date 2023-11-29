@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
         if (!gameOver)
         {
             scoreText.text = "Score: " + (100 * SkeletonsKilled);
-            skeleAliveText.text = "Enemies Alives: " + TotalSkeletonsOnMap;
+            skeleAliveText.text = "Enemies Alive: " + TotalSkeletonsOnMap;
             survivedTimeText.text = "Time Survived: " + Math.Round(Time.timeSinceLevelLoad, 2);
         }
         else
